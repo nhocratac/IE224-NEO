@@ -7,13 +7,29 @@ import matplotlib.pyplot as plt
 st.set_page_config(layout="wide")
 
 # Tiêu đề chính
-st.title('NASA Near-Earth Objects Analysis Dashboard')
+st.markdown("""
+    <style>
+    .main .block-container {
+        padding-top: 1rem;
+    }
+    h1 {
+        color: #1E88E5;
+        text-align: center;
+        padding-bottom: 2rem;
+    }
+    .stSubheader {
+        color: #424242;
+        font-weight: 600;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
+st.markdown("<h1 style='text-align: center; color: #1E88E5; font-size: 24px; padding: 0.5rem;'>NASA Near-Earth Objects Analysis Dashboard</h1><br>", unsafe_allow_html=True)
 
 # Load data
 @st.cache_data
 def load_data():
-    df = pd.read_csv('../data/NASA Near-Earth Objects-CleanbyThang.csv', index_col=0)
+    df = pd.read_csv('../data/NASA Near-Earth Objects-Sampling.csv', index_col=0)
     df['first_observation_date'] = pd.to_datetime(df['first_observation_date'])
     df['last_observation_date'] = pd.to_datetime(df['last_observation_date'])
     df['first_observation_year'] = df['first_observation_date'].dt.year
@@ -41,15 +57,15 @@ with row1_col1:
 with row1_col2:
     fig2, ax2 = plt.subplots(figsize=(12, 6))
     
-    # Vẽ KDE cho vật thể nguy hiểm
+    # Vẽ KDE với fill
     sns.kdeplot(data=df[df['is_potentially_hazardous_asteroid']]['absolute_magnitude_h'],
-                color='red', label='Nguy hiểm', linewidth=2)
+                color='red', label='Nguy hiểm', linewidth=2,
+                fill=True, alpha=0.3)
     
-    # Vẽ KDE cho vật thể không nguy hiểm
     sns.kdeplot(data=df[~df['is_potentially_hazardous_asteroid']]['absolute_magnitude_h'],
-                color='lightgreen', label='Không nguy hiểm', linewidth=2)
+                color='lightgreen', label='Không nguy hiểm', linewidth=2,
+                fill=True, alpha=0.3)
     
-    # Vẽ KDE cho tất cả vật thể
     sns.kdeplot(data=df['absolute_magnitude_h'],
                 color='blue', label='Trung bình chung', 
                 linestyle='--', linewidth=2)
@@ -59,15 +75,6 @@ with row1_col2:
     plt.ylabel('Mật độ')
     plt.legend(title='Mức độ nguy hiểm')
     plt.grid(True, alpha=0.3)
-    
-    # Thêm giá trị trung bình bằng đường dọc
-    plt.axvline(df[df['is_potentially_hazardous_asteroid']]['absolute_magnitude_h'].mean(), 
-                color='red', linestyle=':', alpha=0.5)
-    plt.axvline(df[~df['is_potentially_hazardous_asteroid']]['absolute_magnitude_h'].mean(), 
-                color='lightgreen', linestyle=':', alpha=0.5)
-    plt.axvline(df['absolute_magnitude_h'].mean(), 
-                color='blue', linestyle=':', alpha=0.5)
-    
     plt.tight_layout()
     st.pyplot(fig2)
 
@@ -81,16 +88,40 @@ with row2_col1:
     st.pyplot(fig3)
 
 with row2_col2:
-    # st.subheader('Phân bố đối tượng có khả năng va chạm')
-    fig4, ax4 = plt.subplots(figsize=(12, 6))
-    sns.countplot(data=df, x='is_collidable', hue='is_potentially_hazardous_asteroid',
-                  palette=['blue', 'orange'])
-    plt.title('Phân bố đối tượng có khả năng va chạm theo mức độ nguy hiểm')
-    plt.xlabel('is_collidable')
-    plt.ylabel('Count')
-    plt.legend(title='Mức độ nguy hiểm', labels=['Không nguy hiểm', 'Nguy hiểm'])
-    plt.gca().bar_label(plt.gca().containers[0])
-    plt.gca().bar_label(plt.gca().containers[1])
+    # st.subheader('Tương quan giữa khả năng va chạm và mức độ nguy hiểm')
+    fig4, ax4 = plt.subplots(figsize=(10, 6))
+    
+    # Tạo bảng crosstab
+    ct = pd.crosstab(df['is_collidable'], df['is_potentially_hazardous_asteroid'], 
+                     normalize='index') * 100
+    
+    # Đổi tên index và columns để dễ đọc
+    ct.index = ['Không va chạm', 'Có thể va chạm']
+    ct.columns = ['Không nguy hiểm', 'Nguy hiểm']
+    
+    # Vẽ stacked bar chart
+    ct.plot(kind='bar', stacked=True, 
+           color=['lightblue', 'coral'],
+           width=0.5,   
+           ax=ax4)
+    
+    plt.title('Phân tích mối quan hệ giữa\nkhả năng va chạm và mức độ nguy hiểm')
+    plt.xlabel('Khả năng va chạm')
+    plt.ylabel('Phần trăm (%)')
+    plt.legend(title='Mức độ nguy hiểm',
+              bbox_to_anchor=(1.05, 1),
+              loc='upper left')
+    
+    # Thêm label phần trăm với vị trí điều chỉnh
+    for i, container in enumerate(ax4.containers):
+        # Vị trí label sẽ khác nhau cho từng phần của stack
+        if i == 0:  # Phần đầu tiên (không nguy hiểm)
+            ax4.bar_label(container, fmt='%.1f%%', label_type='center')
+        else:  # Phần thứ hai (nguy hiểm)
+            ax4.bar_label(container, fmt='%.1f%%', label_type='center')
+    
+    plt.xticks(rotation=0)
+    plt.tight_layout()
     st.pyplot(fig4)
 
 # Dòng 3
