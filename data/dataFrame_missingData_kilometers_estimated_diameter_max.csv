@@ -1,9 +1,0 @@
-,id,absolute_magnitude_h,is_potentially_hazardous_asteroid,is_sentry_object,kilometers_estimated_diameter_min,kilometers_estimated_diameter_max,orbit_class_type,perihelion_distance,aphelion_distance,first_observation_date,last_observation_date,orbit_class_description
-7099,3486442,22.01,False,False,,,ATE,0.4990663663942602,1.308927289446094,2010-01-19,2022-02-20,Near-Earth asteroid orbits similar to that of 2062 Aten
-7100,3486468,24.5,False,False,,,APO,0.9929343889856812,3.807938149632763,2010-01-21,2010-02-19,Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo
-7298,3521512,22.5,False,False,,,APO,0.9723260161762658,3.523808065825909,2010-04-23,2010-05-16,Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo
-7299,3520758,23.6,False,False,,,ATE,0.5604380455629826,1.041742970810192,2010-04-20,2015-04-23,Near-Earth asteroid orbits similar to that of 2062 Aten
-7300,3519453,27.0,False,False,,,APO,0.8593039566490813,1.57215443450356,2010-05-04,2010-05-08,Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo
-7399,3536555,20.7,True,False,,,APO,0.8076407184521641,2.70437070435202,2010-06-30,2020-01-29,Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo
-7400,3536587,24.8,False,False,,,APO,0.809471761351846,1.333837209242459,2010-06-23,2010-06-25,Near-Earth asteroid orbits which cross the Earth’s orbit similar to that of 1862 Apollo
-7420,3537906,19.3,False,False,,,AMO,1.061092603832525,4.500853676436462,2010-07-21,2020-01-26,Near-Earth asteroid orbits similar to that of 1221 Amor
