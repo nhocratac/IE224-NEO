@@ -1,0 +1,5 @@
+<script>start("d:\\IE224-Phan tich du lieu\\Do an\\data\\");</script>
+<script>onHasParentDirectory();</script>
+<script>addRow("dataFrame_missingData_kilometers_estimated_diameter_max.csv","dataFrame_missingData_kilometers_estimated_diameter_max.csv",0,1651,"1.6 kB",1734099953,"12/13/24, 9:25:53 PM");</script>
+<script>addRow("NASA Near-Earth Objects-CleanbyThang.csv","NASA%20Near-Earth%20Objects-CleanbyThang.csv",0,927867,"906 kB",1734100130,"12/13/24, 9:28:50 PM");</script>
+<script>addRow("NASA Near-Earth Objects.csv","NASA%20Near-Earth%20Objects.csv",0,5460868,"5.2 MB",1733642834,"12/8/24, 2:27:14 PM");</script>
